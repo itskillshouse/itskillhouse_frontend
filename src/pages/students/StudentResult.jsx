@@ -20,20 +20,14 @@ const StudentResult = () => {
     return new Date(dateStr).toISOString().split("T")[0];
   };
 
-  // ✅ SCROLL LOCK (FIXED)
   useEffect(() => {
-    if (showModal) {
-      document.body.style.overflow = "hidden";
-      document.body.style.position = "fixed";
-      document.body.style.width = "100%";
-    } else {
-      document.body.style.overflow = "auto";
-      document.body.style.position = "static";
-    }
+    if (!showModal) return undefined;
+
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
 
     return () => {
-      document.body.style.overflow = "auto";
-      document.body.style.position = "static";
+      document.body.style.overflow = previousOverflow;
     };
   }, [showModal]);
 
@@ -50,7 +44,7 @@ const StudentResult = () => {
       const res = await getStudentById(studentId);
       setStudent(res.data.student);
       setShowModal(true);
-    } catch (err) {
+    } catch {
       setError("Student not found! Please check your ID.");
     }
 

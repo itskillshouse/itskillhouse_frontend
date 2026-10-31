@@ -6,18 +6,21 @@ const SmoothScroll = () => {
   useEffect(() => {
     const lenis = new Lenis({
       duration: 1.2,
-      easing: (t) => 1 - Math.pow(1 - t, 3), // smooth cubic easing
-      smooth: true,
+      easing: (t) => 1 - Math.pow(1 - t, 3),
+      smoothWheel: true,
     });
+
+    let animationFrameId;
 
     function raf(time) {
       lenis.raf(time);
-      requestAnimationFrame(raf);
+      animationFrameId = requestAnimationFrame(raf);
     }
 
-    requestAnimationFrame(raf);
+    animationFrameId = requestAnimationFrame(raf);
 
     return () => {
+      cancelAnimationFrame(animationFrameId);
       lenis.destroy();
     };
   }, []);

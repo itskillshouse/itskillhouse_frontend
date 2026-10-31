@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { FaBars, FaTimes } from 'react-icons/fa';
 import { Link, useLocation } from 'react-router-dom';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion as Motion, AnimatePresence } from 'framer-motion';
 import WavyButton from './WavyButton';
 import MagneticItem from './MagneticItem';
 import '../style/Header.css';
@@ -20,10 +20,12 @@ function Header({ isOpen, setIsOpen }) {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Scroll lock (unchanged)
   useEffect(() => {
+    const previousOverflow = document.body.style.overflow;
     document.body.style.overflow = isOpen ? 'hidden' : '';
-    return () => (document.body.style.overflow = '');
+    return () => {
+      document.body.style.overflow = previousOverflow;
+    };
   }, [isOpen]);
 
   /* -------- MOBILE MENU (ANIMATION DISABLED) -------- */
@@ -65,7 +67,7 @@ const mobileMenuVariants = {
         </div>
 
         {/* DESKTOP MENU (UNCHANGED) */}
-        <motion.div
+        <Motion.div
         className="menu hidden lg:flex items-center gap-[5.5vw]"
 
           initial={{ opacity: 0, y: -30 }}
@@ -87,7 +89,7 @@ const mobileMenuVariants = {
             ))}
           </ul>
           <WavyButton />
-        </motion.div>
+        </Motion.div>
 
         {/* MOBILE HAMBURGER */}
         <div className="lg:hidden text-2xl text-text z-50">
@@ -100,7 +102,7 @@ const mobileMenuVariants = {
 {/* MOBILE FULLSCREEN MENU */}
 <AnimatePresence>
   {isOpen && (
-    <motion.div
+    <Motion.div
       variants={mobileMenuVariants}
       initial="hidden"
       animate="visible"
@@ -113,7 +115,6 @@ const mobileMenuVariants = {
 
         <h3 className="text-white text-2xl font-montserrat font-semibold">
           <Link to="/">IT SKILLS</Link>
-          
         </h3>
         <button
           className="text-2xl text-white z-50"
@@ -149,7 +150,7 @@ const mobileMenuVariants = {
           <WavyButton />
         </div>
       </div>
-    </motion.div>
+    </Motion.div>
   )}
 </AnimatePresence>
 
