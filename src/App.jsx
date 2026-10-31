@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { lazy, Suspense, useState, useEffect } from "react";
 import {
   BrowserRouter as Router,
   Routes,
@@ -24,64 +24,57 @@ import NotFound from "./components/NotFound.jsx";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-// Layout
-import DashboardLayout from "./layouts/DashboardLayout";
-
-// Pages
-import Home from "./pages/Home";
-import About from "./pages/About";
-import Expertise from "./pages/Expertise";
-import Blog from "./pages/Blog";
-import Contact from "./pages/Contact";
-import Services from "./pages/Services";
-import Work from "./pages/Work";
-import Login from "./pages/Login";
-import Dashboard from "./pages/Dashboard";
-import AddBlog from "./pages/blogs/AddBlog";
-import EditBlog from "./pages/blogs/EditBlog";
-import BlogDetail from "./pages/blogs/BlogDetail";
-import ViewBlogs from "./pages/blogs/ViewBlogs";
-import AllBlogs from "./pages/blogs/AllBlogs";
-
-import EditInquiry from "./pages/inquiries/EditInquiry";
-import InquiryDetails from "./pages/inquiries/InquiryDetails";
-import InquiryList from "./pages/inquiries/InquiryList";
-
-import SubscribeForm from "./pages/newsLetter/SubscribeForm";
-import NewsletterForm from "./pages/newsLetter/NewsletterForm";
-import SubscriberList from "./pages/newsLetter/SubscriberList";
-import AnalyticsChart from "./pages/newsLetter/AnalyticsChart";
-
-import StudentCreate from "./pages/students/StudentCreate.jsx";
-import StudentList from "./pages/students/StudentList.jsx";
-import ViewStudent from "./pages/students/ViewStudent.jsx";
-import StudentResult from "./pages/students/StudentResult.jsx";
-
-import AddPortfolio from "./pages/Portfolio/AddPortfolio.jsx";
-import EditPortfolio from "./pages/Portfolio/EditPortfolio.jsx";
-import PortfolioList from "./pages/Portfolio/PortfolioList.jsx";
-
-import TestimonialsList from "./pages/testimonials/TestimonialsList.jsx";
-import EditTestimonial from "./pages/testimonials/EditTestimonial.jsx";
-import AddTestimonial from "./pages/testimonials/AddTestimonial.jsx";
+// Route pages are split so each screen only loads its own feature bundle.
+const DashboardLayout = lazy(() => import("./layouts/DashboardLayout"));
+const Home = lazy(() => import("./pages/Home"));
+const About = lazy(() => import("./pages/About"));
+const Expertise = lazy(() => import("./pages/Expertise"));
+const Blog = lazy(() => import("./pages/Blog"));
+const Contact = lazy(() => import("./pages/Contact"));
+const Services = lazy(() => import("./pages/Services"));
+const Work = lazy(() => import("./pages/Work"));
+const Login = lazy(() => import("./pages/Login"));
+const Dashboard = lazy(() => import("./pages/Dashboard"));
+const AddBlog = lazy(() => import("./pages/blogs/AddBlog"));
+const EditBlog = lazy(() => import("./pages/blogs/EditBlog"));
+const BlogDetail = lazy(() => import("./pages/blogs/BlogDetail"));
+const ViewBlogs = lazy(() => import("./pages/blogs/ViewBlogs"));
+const AllBlogs = lazy(() => import("./pages/blogs/AllBlogs"));
+const EditInquiry = lazy(() => import("./pages/inquiries/EditInquiry"));
+const InquiryDetails = lazy(() => import("./pages/inquiries/InquiryDetails"));
+const InquiryList = lazy(() => import("./pages/inquiries/InquiryList"));
+const SubscribeForm = lazy(() => import("./pages/newsLetter/SubscribeForm"));
+const NewsletterForm = lazy(() => import("./pages/newsLetter/NewsletterForm"));
+const SubscriberList = lazy(() => import("./pages/newsLetter/SubscriberList"));
+const AnalyticsChart = lazy(() => import("./pages/newsLetter/AnalyticsChart"));
+const StudentCreate = lazy(() => import("./pages/students/StudentCreate.jsx"));
+const StudentList = lazy(() => import("./pages/students/StudentList.jsx"));
+const ViewStudent = lazy(() => import("./pages/students/ViewStudent.jsx"));
+const StudentResult = lazy(() => import("./pages/students/StudentResult.jsx"));
+const AddPortfolio = lazy(() => import("./pages/Portfolio/AddPortfolio.jsx"));
+const EditPortfolio = lazy(() => import("./pages/Portfolio/EditPortfolio.jsx"));
+const PortfolioList = lazy(() => import("./pages/Portfolio/PortfolioList.jsx"));
+const TestimonialsList = lazy(() => import("./pages/testimonials/TestimonialsList.jsx"));
+const EditTestimonial = lazy(() => import("./pages/testimonials/EditTestimonial.jsx"));
+const AddTestimonial = lazy(() => import("./pages/testimonials/AddTestimonial.jsx"));
 
 import ProtectedRoute from "./routes/ProtectedRoute";
 
 
 // batches
-import CreateBatch from "./pages/batches/CreateBatch.jsx";
-import BatchesList from "./pages/batches/BatchesList.jsx";
-import EditBatch from "./pages/batches/EditBatch.jsx";
-import BatchDetails from "./pages/batches/BatchDetails.jsx";
+const CreateBatch = lazy(() => import("./pages/batches/CreateBatch.jsx"));
+const BatchesList = lazy(() => import("./pages/batches/BatchesList.jsx"));
+const EditBatch = lazy(() => import("./pages/batches/EditBatch.jsx"));
+const BatchDetails = lazy(() => import("./pages/batches/BatchDetails.jsx"));
 import ScrollToTop from "./components/ScrollToTop.jsx";
 
 
 // admin routes
-import ForgotPassword from "./pages/admin/ForgotPassword.jsx";
-import ResetPassword from "./pages/admin/ResetPassword.jsx";
-import AdminProfile from "./pages/admin/AdminProfile.jsx";
-import CreateAdmin from "./pages/admin/CreateAdmin.jsx";
-import UpdateProfile from "./pages/admin/UpdateProfile.jsx";
+const ForgotPassword = lazy(() => import("./pages/admin/ForgotPassword.jsx"));
+const ResetPassword = lazy(() => import("./pages/admin/ResetPassword.jsx"));
+const AdminProfile = lazy(() => import("./pages/admin/AdminProfile.jsx"));
+const CreateAdmin = lazy(() => import("./pages/admin/CreateAdmin.jsx"));
+const UpdateProfile = lazy(() => import("./pages/admin/UpdateProfile.jsx"));
 
 
 // Page Animation Wrapper
@@ -100,7 +93,7 @@ const AnimatedPageWrapper = ({ children }) => (
 const Layout = () => {
   const location = useLocation();
   const isHome = location.pathname === "/";
-  const isAdminRoute = location.pathname.startsWith("/admin"); 
+  const isAdminRoute = location.pathname.startsWith("/admin");
   const isStudentResult = location.pathname === "/student-result";
 
   const [isHeaderOpen, setIsHeaderOpen] = useState(false);
@@ -120,8 +113,9 @@ const Layout = () => {
       {!isAdminRoute && !isStudentResult && <NewsletterPopup />}
 
       <AnimatePresence mode="wait">
-        <motion.div key={location.pathname}>
+        <Motion.div key={location.pathname}>
            <ScrollToTop />
+          <Suspense fallback={<div className="p-8 text-center">Loading page...</div>}>
           <Routes location={location}>
  
             {/* Public Routes */}
@@ -189,7 +183,8 @@ const Layout = () => {
             {/* 404 */}
             <Route path="*" element={<NotFound/>} />
           </Routes>
-        </motion.div>
+          </Suspense>
+        </Motion.div>
       </AnimatePresence>
 
       <BlobTransition />
