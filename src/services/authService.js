@@ -32,10 +32,16 @@ export const forgotPassword = async (email) => {
 };
 
 // Reset Password
-export const resetPassword = async (token, password) => {
+export const resetPassword = async (token, password, confirmPassword) => {
   const res = await axiosInstance.put(`/admin/reset-password/${token}`, {
-    password
+    password,
+    confirmPassword,
   });
+  return res.data;
+};
+
+export const getAdminDashboardStats = async () => {
+  const res = await axiosInstance.get("/admin/dashboard/stats");
   return res.data;
 };
 

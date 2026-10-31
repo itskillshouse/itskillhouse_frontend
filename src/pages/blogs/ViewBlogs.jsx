@@ -12,7 +12,7 @@ useEffect(() => {
       const res = await fetch("/blogs");
       const data = await res.json();
       if (data.success) {
-        setBlogs(data.blog); // 👈 make sure you're accessing `data.blogs`, not whole data
+        setBlogs(data.blog); 
       }
     } catch (err) {
       console.error("Error fetching blogs:", err);

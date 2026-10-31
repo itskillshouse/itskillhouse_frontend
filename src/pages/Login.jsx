@@ -1,16 +1,26 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import api from "../services/api";
 import { setToken } from "../../utils/auth";
-import { motion } from "framer-motion";
+import { motion as Motion } from "framer-motion";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const AdminLogin = () => {
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [loading, setLoading] = useState(false);
-  const navigate = useNavigate("/admin/dashboard");
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  useEffect(() => {
+    if (
+      location.state?.sessionExpired ||
+      new URLSearchParams(location.search).get("sessionExpired") === "1"
+    ) {
+      toast.warning("Your session expired. Please log in again.");
+    }
+  }, [location.search, location.state]);
 
 const handleLogin = async (e) => {
   e.preventDefault();
@@ -43,7 +53,7 @@ const handleLogin = async (e) => {
 
   return (
     <div className="min-h-[90vh] flex items-center justify-center bg-surface">
-      <motion.form
+      <Motion.form
         initial={{ opacity: 0, y: -50 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, ease: "easeOut" }}
@@ -80,6 +90,15 @@ const handleLogin = async (e) => {
           />
         </div>
 
+        <div className="mb-5 text-right">
+          <Link
+            to="/admin/forgot-password"
+            className="text-sm font-medium text-blue-600 hover:text-blue-700"
+          >
+            Forgot password?
+          </Link>
+        </div>
+
         <button
           type="submit"
           disabled={loading || !formData.email || !formData.password}
@@ -91,7 +110,7 @@ const handleLogin = async (e) => {
         >
           {loading ? "Logging in..." : "Login"}
         </button>
-      </motion.form>
+      </Motion.form>
        <ToastContainer position="top-center" autoClose={2000} />
     </div>
   );

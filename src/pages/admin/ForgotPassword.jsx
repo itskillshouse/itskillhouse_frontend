@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import { forgotPassword } from "../../services/authService";
 
 export default function ForgotPassword() {
@@ -16,22 +17,20 @@ setLoading(true);
 setError("");
 setMessage("");
 
-try{
+try {
 
-await forgotPassword(email);
+await forgotPassword(email.trim());
 
-setMessage("Reset link sent to your email");
+setMessage("If that email belongs to an admin account, a reset link will be sent.");
 setEmail("");
 
-}catch(err){
+} catch (err) {
 
-setError(
-err.response?.data?.message || "Something went wrong"
-);
+setError(err.response?.data?.message || "Something went wrong");
 
-}
-
+} finally {
 setLoading(false);
+}
 
 };
 
@@ -85,6 +84,13 @@ className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 trans
 </p>
 
 )}
+
+<p className="mt-5 text-center text-sm text-gray-600">
+  Remembered your password?{" "}
+  <Link to="/admin/login" className="font-medium text-blue-600 hover:text-blue-700">
+    Back to login
+  </Link>
+</p>
 
 </div>
 

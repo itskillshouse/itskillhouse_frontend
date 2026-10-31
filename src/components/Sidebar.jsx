@@ -352,16 +352,6 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
                 <Key size={16} />
                 Forgot Password
               </Link>
-              <Link
-                to="/admin/reset-password/token"
-                onClick={handleLinkClick}
-                className={`flex items-center gap-2 p-1 rounded hover:text-blue-700 ${isActive(
-                  "/admin/reset-password/token"
-                )}`}
-              >
-                <Key size={16} />
-                Reset Password
-              </Link>
             </div>
           </div>
 

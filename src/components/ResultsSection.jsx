@@ -2,12 +2,12 @@ import React, { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 
 const STATS = [
-  { value: "150+", label: "brands scaled globally", x: 70 },
-  { value: "40%", label: "conversion growth", x: 35 },
-  { value: "5M+", label: "qualified leads", x: 0 },
-  { value: "30M+", label: "monthly traffic", x: 35 },
-  { value: "99.9%", label: "system uptime", x: 70 },
-  { value: "100%", label: "on-time execution", x: 110 },
+  { value: "150+", label: "brands scaled globally" },
+  { value: "40%", label: "conversion growth" },
+  { value: "5M+", label: "qualified leads" },
+  { value: "30M+", label: "monthly traffic" },
+  { value: "99.9%", label: "system uptime" },
+  { value: "100%", label: "on-time execution" },
 ];
 
 export default function ResultsSection() {
@@ -18,50 +18,38 @@ export default function ResultsSection() {
     offset: ["start 85%", "start 20%"],
   });
 
-  /* Left content */
-  const titleY = useTransform(scrollYProgress, [0, 0.35], [60, 0]);
-  const titleOpacity = useTransform(scrollYProgress, [0, 0.35], [0, 1]);
-  const titleBlur = useTransform(
-    scrollYProgress,
-    [0, 0.35],
-    ["blur(8px)", "blur(0px)"]
-  );
+  const titleY = useTransform(scrollYProgress, [0, 0.3], [80, 0]);
+  const titleOpacity = useTransform(scrollYProgress, [0, 0.3], [0, 1]);
 
   return (
     <section
       ref={ref}
       className="relative bg-black min-h-screen flex items-center overflow-hidden"
     >
-      <div className="w-full px-[7vw] py-[8vw] grid md:grid-cols-2 gap-28 items-center">
+      <div className="w-full px-[7vw] py-[8vw] grid md:grid-cols-[1.1fr_1fr] gap-32 items-start">
 
-        {/* LEFT — SILENT POWER */}
+        {/* LEFT */}
         <motion.div
-          style={{
-            y: titleY,
-            opacity: titleOpacity,
-            filter: titleBlur,
-          }}
-          className="space-y-10"
+          style={{ y: titleY, opacity: titleOpacity }}
+          className="sticky top-28 space-y-10"
         >
-          <h2 className="text-5xl md:text-6xl font-semibold leading-[1.02] text-white">
+          <h2 className="text-6xl md:text-7xl font-semibold leading-[1] text-white tracking-tight">
             results that
             <br />
-            move
-            <br />
-            markets
+            move markets
           </h2>
 
-          <p className="max-w-md text-lg text-white/65">
-            Performance-driven systems built for scale, precision,
+          <p className="max-w-md text-lg text-white/60 leading-relaxed">
+            Performance-driven systems engineered for scale, precision,
             and long-term dominance.
           </p>
         </motion.div>
 
-        {/* RIGHT — C TYPE / EXECUTIVE DATA */}
-        <div className="relative flex flex-col gap-14">
+        {/* RIGHT - BENTO STYLE */}
+        <div className="grid grid-cols-2 gap-6">
           {STATS.map((stat, i) => {
-            const start = 0.15 + i * 0.1;
-            const end = start + 0.35;
+            const start = 0.15 + i * 0.08;
+            const end = start + 0.3;
 
             const opacity = useTransform(
               scrollYProgress,
@@ -72,33 +60,26 @@ export default function ResultsSection() {
             const y = useTransform(
               scrollYProgress,
               [start, end],
-              [24, 0]
-            );
-
-            const blur = useTransform(
-              scrollYProgress,
-              [start, end],
-              ["blur(6px)", "blur(0px)"]
+              [30, 0]
             );
 
             return (
               <motion.div
                 key={i}
-                style={{
-                  opacity,
-                  y,
-                  filter: blur,
-                  transform: `translateX(${stat.x}px)`,
-                }}
-                className="flex items-baseline gap-8 will-change-transform"
+                style={{ opacity, y }}
+                className={`
+                  p-6 rounded-2xl border border-white/10 
+                  bg-white/[0.03] backdrop-blur-xl
+                  hover:bg-white/[0.06] transition
+                  ${i === 0 ? "col-span-2" : ""}
+                `}
               >
-                <span className="text-4xl md:text-5xl font-semibold text-white tracking-tight">
+                <h3 className="text-3xl md:text-4xl font-semibold text-white mb-2">
                   {stat.value}
-                </span>
-
-                <span className="text-sm md:text-base text-white/60 max-w-xs leading-snug">
+                </h3>
+                <p className="text-sm text-white/60 leading-snug">
                   {stat.label}
-                </span>
+                </p>
               </motion.div>
             );
           })}

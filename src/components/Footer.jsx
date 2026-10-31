@@ -147,7 +147,7 @@ export default function Footer() {
             custom={1}
             className="space-y-2"
           >
-            <p className="text-xl font-medium">infoitskillshouse@gmail.com</p>
+            <p className="text-xl font-medium">Info@itskillshouse.in</p>
             <p className="text-lg text-light/70">+91 9592838557</p>
           </motion.div>
 

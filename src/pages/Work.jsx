@@ -6,6 +6,7 @@ import Clients from '../components/Clients.jsx';
 import Process from '../components/Process.jsx';
 import Testimonials from '../components/Testimonials.jsx'
 import WebsiteTypesSection from '../components/WebsiteTypesSection.jsx';
+import PremiumSection from '../components/PremiumSection.jsx';
 
 function Work() {
   return (
@@ -19,6 +20,7 @@ function Work() {
        
       <Process />
       <Testimonials /> 
+      {/* <PremiumSection/> */}
 </>
   )
 }

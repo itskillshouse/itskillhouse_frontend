@@ -5,7 +5,7 @@ import {
   Route,
   useLocation,
 } from "react-router-dom";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion as Motion } from "framer-motion";
 
 // Components
 import SmoothScroll from "./components/SmoothScroll";
@@ -86,14 +86,14 @@ import UpdateProfile from "./pages/admin/UpdateProfile.jsx";
 
 // Page Animation Wrapper
 const AnimatedPageWrapper = ({ children }) => (
-  <motion.div
+  <Motion.div
     initial={{ opacity: 0, y: 50 }}
     animate={{ opacity: 1, y: 0 }}
     exit={{ opacity: 0, y: -50 }}
     transition={{ duration: 0.5, ease: "easeInOut" }}
   >
     {children}
-  </motion.div>
+  </Motion.div>
 );
 
 // Main Layout
@@ -139,6 +139,8 @@ const Layout = () => {
 
             {/* Admin Login */}
             <Route path="/admin/login" element={<AnimatedPageWrapper><Login /></AnimatedPageWrapper>} />
+            <Route path="/admin/forgot-password" element={<ForgotPassword />} />
+            <Route path="/admin/reset-password/:token" element={<ResetPassword />} />
 
             {/* Protected Admin */}
             <Route path="/admin" element={<ProtectedRoute><DashboardLayout /></ProtectedRoute>}>
@@ -171,8 +173,6 @@ const Layout = () => {
               <Route path="testimonials/add" element={<AddTestimonial />} />
               <Route path="testimonials/edit/:id" element={<EditTestimonial />} />
 
-             <Route path="forgot-password" element={<ForgotPassword/>} />
-            <Route path="reset-password/:token" element={<ResetPassword />} />
             <Route path="profile" element={<AdminProfile />} />
             <Route path="create-admin" element={<CreateAdmin />} />
             <Route path="update-profile" element={<UpdateProfile />} />

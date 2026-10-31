@@ -17,6 +17,10 @@ export const getAllStudents = async () => {
   return await axiosInstance.get("/students");
 };
 
+export const getPublicStudents = async () => {
+  return await axiosInstance.get("/students/public");
+};
+
 /* ============================
    ✅ 3. GET SINGLE STUDENT (ADMIN / STUDENT)
 ============================= */
@@ -37,4 +41,3 @@ export const updateStudent = async (uniqueId, data) => {
 export const deleteStudent = async (uniqueId) => {
   return await axiosInstance.delete(`/students/${uniqueId}`);
 };
-

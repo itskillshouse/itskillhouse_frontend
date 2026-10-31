@@ -13,7 +13,16 @@ const fetchStats = async () => {
   try {
     setLoading(true);
     const res = await getNewsletterStats();
-    setStats(res?.data?.stats || []);   // 👈 fallback array
+    const newsletters = res?.data?.data?.recentNewsletters || [];
+    setStats(
+      newsletters
+        .map((newsletter) => ({
+          date: new Date(newsletter.createdAt).toLocaleDateString(),
+          count: Number(newsletter.sentTo) || 0,
+          subject: newsletter.subject,
+        }))
+        .reverse()
+    );
   } catch (error) {
     console.error(error);
     toast.error("Failed to load analytics data");
@@ -41,7 +50,11 @@ const fetchStats = async () => {
             <CartesianGrid stroke="#eee" strokeDasharray="5 5" />
             <XAxis dataKey="date" />
             <YAxis allowDecimals={false} />
-            <Tooltip />
+            <Tooltip
+              labelFormatter={(label, payload) =>
+                payload?.[0]?.payload?.subject || label
+              }
+            />
             <Line type="monotone" dataKey="count" stroke="#8884d8" strokeWidth={3} />
           </LineChart>
         </ResponsiveContainer>

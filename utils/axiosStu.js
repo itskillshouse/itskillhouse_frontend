@@ -15,4 +15,16 @@ instance.interceptors.request.use((config) => {
 });
 
 
+instance.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (error.response?.status === 401 && localStorage.getItem("token")) {
+      localStorage.removeItem("token");
+      window.location.href = "/admin/login?sessionExpired=1";
+    }
+
+    return Promise.reject(error);
+  }
+);
+
 export default instance;

@@ -1,4 +1,6 @@
 import React from 'react'
+import { Helmet } from "react-helmet"
+
 import AboutHeading from '../components/AboutHeading'
 import AboutMission from '../components/AboutMission'
 import AboutStats from '../components/AboutStats'
@@ -9,15 +11,27 @@ import TechStack from '../components/AboutTechStack.jsx'
 
 function About() {
   return (
-    <div>
-      <AboutHeading/>
-      <AboutMission/>
-      <AboutStats/>
-      <AboutStory/>
-      <AboutValues/>
-      <TechStack/>
-      <AboutCTA/>
-    </div>
+    <>
+      {/* ✅ SEO Part */}
+      <Helmet>
+        <title>About Us - My Website</title>
+        <meta 
+          name="description" 
+          content="Learn more about our company, mission, values, and the technology stack we use to build amazing products." 
+        />
+      </Helmet>
+
+      {/* ✅ Page Content */}
+      <div>
+        <AboutHeading/>
+        <AboutMission/>
+        <AboutStats/>
+        <AboutStory/>
+        <AboutValues/>
+        <TechStack/>
+        <AboutCTA/>
+      </div>
+    </>
   )
 }
 

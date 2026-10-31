@@ -32,7 +32,7 @@ setLoading(true);
 
 try{
 
-await resetPassword(token,password);
+await resetPassword(token, password, confirmPassword);
 
 setMessage("Password reset successful");
 

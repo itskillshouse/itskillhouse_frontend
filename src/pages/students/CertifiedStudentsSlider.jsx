@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay } from "swiper/modules";
-import { getAllStudents } from "../../services/studentApi";
+import { getPublicStudents } from "../../services/studentApi";
 import { FaCheckCircle } from "react-icons/fa";
 
 import "swiper/css";
@@ -14,7 +14,7 @@ function CertifiedStudentsSlider() {
   useEffect(() => {
     const fetchStudents = async () => {
       try {
-        const data = await getAllStudents();
+        const data = await getPublicStudents();
         setStudents(data.data.students || data);
 
       } catch (error) {
@@ -70,7 +70,7 @@ function CertifiedStudentsSlider() {
 
           {students.map((student) => (
 
-            <SwiperSlide key={student._id}>
+            <SwiperSlide key={student.studentId}>
 
               <div className="backdrop-blur-lg bg-white/10 border border-white/20 rounded-2xl p-6 shadow-lg hover:scale-105 transition duration-300">
 
