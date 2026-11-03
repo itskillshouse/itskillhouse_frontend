@@ -2,6 +2,7 @@ import { useState } from "react";
 import { createStudent } from "../../services/studentApi";
 
 const initialState = {
+  studentId: "",
   name: "",
   fatherName: "",
   motherName: "",
@@ -71,6 +72,7 @@ export default function AdminCreate() {
   // ------------------ VALIDATION ------------------
   const validate = () => {
     const requiredFields = [
+      "studentId",
       "name",
       "fatherName",
       "motherName",
@@ -119,11 +121,8 @@ export default function AdminCreate() {
           form.append(key, formData[key]);
         }
       });
-      for (let pair of form.entries()) {
-      }
-
       // ------------------ SEND TO BACKEND ------------------
-      const res = await createStudent(form);
+      await createStudent(form);
 
       setSuccess("Student created successfully");
       setFormData(initialState);
@@ -156,6 +155,18 @@ export default function AdminCreate() {
 
         <form onSubmit={handleSubmit}
   encType="multipart/form-data" className="grid grid-cols-1 md:grid-cols-2 gap-5">
+          <div>
+            <label className="block mb-1 font-medium">Student ID *</label>
+            <input
+              name="studentId"
+              value={formData.studentId}
+              onChange={handleChange}
+              className="w-full p-2 border rounded"
+              placeholder="Enter unique student ID"
+              required
+            />
+          </div>
+
           <div>
             <label className="block mb-1 font-medium">Student Name *</label>
             <input

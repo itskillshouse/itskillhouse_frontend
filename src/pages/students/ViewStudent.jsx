@@ -39,6 +39,9 @@ export default function AdminViewStudent() {
       setActionLoading(true);
       const { data } = await updateStudent(studentId, formData);
       setStudent(data.student);
+      if (data.student.studentId !== studentId) {
+        navigate(`/admin/students/${data.student.studentId}`, { replace: true });
+      }
       setEditMode(false);
       alert("✅ Student updated successfully");
     } catch (err) {
@@ -83,6 +86,7 @@ export default function AdminViewStudent() {
         {/* Form / Display */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {[
+            { label: "Student ID", key: "studentId" },
             { label: "Father Name", key: "fatherName" },
             { label: "Mother Name", key: "motherName" },
             { label: "Total Marks", key: "totalMarks" },
